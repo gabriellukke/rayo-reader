@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Textbox() {
   return (
-    <div>
+    <form className="p-4 flex flex-col md:w-4/6 w-full justify-center items-center">
       <textarea
         className="rounded-sm
           focus:border-transparent 
@@ -15,6 +15,6 @@ export default function Textbox() {
         onChange={() => {}}
         value=""
       />
-    </div>
+    </form>
   );
 }
