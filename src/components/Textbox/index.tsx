@@ -12,6 +12,7 @@ export default function Textbox() {
           bg-elevation-2 
           p-4 w-full h-96
           resize-none"
+        placeholder="Paste your text here"
         onChange={() => {}}
         value=""
       />
