@@ -11,7 +11,7 @@ describe('Home page', () => {
     const title = screen.getByText('Rayo Reader');
     expect(title).toBeInTheDocument();
     
-    const textbox = screen.getByRole('textbox', { name: 'Enter text here' });
+    const textbox = screen.getByRole('textbox', { name: 'Paste your text here' });
     expect(textbox).toBeInTheDocument();
 
     const button = screen.getByRole('button', { name: 'Read' });
@@ -20,7 +20,7 @@ describe('Home page', () => {
 
   it('can enter text into the textbox and read it', () => {
     render(<Home />);
-    const textbox = screen.getByRole('textbox', { name: 'Enter text here' });
+    const textbox = screen.getByRole('textbox', { name: 'Paste your text here' });
     const button = screen.getByRole('button', { name: 'Read' });
 
     userEvent.type(textbox, 'Hello World');
