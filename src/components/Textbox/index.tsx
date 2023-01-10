@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ReaderContext } from '../../context/Reader';
 
 export default function Textbox() {
+  const { text, setText } = useContext(ReaderContext);
+  
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value);
+  };
+
   return (
     <form className="p-4 flex flex-col md:w-4/6 w-full justify-center items-center">
       <textarea
@@ -13,9 +20,10 @@ export default function Textbox() {
           p-4 w-full h-96
           resize-none"
         placeholder="Paste your text here"
-        onChange={() => {}}
-        value=""
+        onChange={handleChange}
+        value={text}
       />
     </form>
   );
 }
+

@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { ReaderContext } from '../../context/Reader';
 
 export default function PlayButton() {
+  const { handleStart } = useContext(ReaderContext);
+
   return (
     <button
       className="
@@ -15,9 +19,9 @@ export default function PlayButton() {
           text-sm
         "
       type="button"
-      onClick={() => {}}
+      onClick={handleStart}
     >
-      iniciar
+      Read
     </button>
   );
 }
