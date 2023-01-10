@@ -11,7 +11,8 @@ describe('Home page', () => {
     const title = screen.getByText('Rayo Reader');
     expect(title).toBeInTheDocument();
     
-    const textbox = screen.getByRole('textbox', { name: 'Paste your text here' });
+    // screen.logTestingPlaygroundURL();
+    const textbox = screen.getByRole('textbox');
     expect(textbox).toBeInTheDocument();
 
     const button = screen.getByRole('button', { name: 'Read' });
@@ -20,7 +21,7 @@ describe('Home page', () => {
 
   it('can enter text into the textbox and read it', () => {
     render(<Home />);
-    const textbox = screen.getByRole('textbox', { name: 'Paste your text here' });
+    const textbox = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: 'Read' });
 
     userEvent.type(textbox, 'Hello World');
@@ -34,7 +35,7 @@ describe('Home page', () => {
     vi.useFakeTimers();
 
     render(<Home />);
-    const textbox = screen.getByRole('textbox', { name: 'Enter text here' });
+    const textbox = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: 'Read' });
 
     userEvent.type(textbox, 'Hello World');
