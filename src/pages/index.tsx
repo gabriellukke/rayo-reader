@@ -1,7 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 
-import { Header, Textbox, Footer } from '../components';
+import { Header, Textbox, Footer, PlayButton } from '../components';
 
 export default function Home() {
   return (
@@ -13,6 +13,7 @@ export default function Home() {
       <Header />
       <main className="w-full flex items-center justify-center flex-col">
         <Textbox />
+        <PlayButton />
       </main>
       <Footer />
    </div>
