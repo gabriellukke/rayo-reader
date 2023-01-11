@@ -14,27 +14,31 @@ interface Props {
 interface Context {
   text: string;
   setText: (text: string) => void;
-  isToggleReader: boolean;
+  isPlaying: boolean;
   handleStart: () => void;
+  words: string[];
+  currentWord: number;
 }
 
 export const ReaderContext = createContext<Context>({
   text: '',
   setText: () => { },
-  isToggleReader: false,
+  isPlaying: false,
   handleStart: () => { },
+  words: [],
+  currentWord: 0,
 });
 
 export default function ReaderProvider({ children }: Props) {
   const [text, setText] = useState('');
   const [words, setWords] = useState<string[]>([]);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
-  const [isToggleReader, setIsToggleReader] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [currentWord, setCurrentWord] = useState(0);
   const [defaultTime, setDefaultTime] = useState(500);
 
   const handleStart = useCallback(() => {
-    setIsToggleReader(true);
+    setIsPlaying(true);
     const splitedWords = text.split(' ');
     setWords(splitedWords);
   }, [text]);
@@ -44,16 +48,16 @@ export default function ReaderProvider({ children }: Props) {
   };
 
   useEffect(() => {
-    if (isToggleReader) {
+    if (isPlaying) {
       const newInterval = setInterval(() => {
         handleNextWord();
       }, defaultTime);
     }
-  }, [isToggleReader, defaultTime]);
+  }, [isPlaying, defaultTime]);
 
   const value = useMemo(
-    () => ({ text, setText, isToggleReader, handleStart }),
-    [text, isToggleReader, handleStart],
+    () => ({ text, setText, isPlaying, handleStart, words, currentWord }),
+    [text, isPlaying, handleStart, words, currentWord]
   );
 
   return (
