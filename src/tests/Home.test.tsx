@@ -30,6 +30,18 @@ describe('Home page', () => {
     await user.click(button);
     expect(textbox).not.toBeInTheDocument();
   });
+  
+  it('can\'t start reading if the textbox is empty', async () => {
+    const user = userEvent.setup();
+    render(<Home />);
+
+    const textbox = screen.getByRole('textbox');
+    const button = screen.getByRole('button', { name: 'Read' });
+
+    await user.click(button);
+    expect(textbox).toBeInTheDocument();
+  });
+
 
   it('can speed read the text', async () => {
     const user = userEvent.setup();
