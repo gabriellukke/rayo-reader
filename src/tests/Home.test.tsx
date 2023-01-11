@@ -1,7 +1,8 @@
 import React from 'react';
+import { vi } from 'vitest';
 import userEvent from '@testing-library/user-event';
 
-import { render, screen } from './test-utils';
+import { render, screen, waitFor } from './test-utils';
 import Home from '../pages';
 
 describe('Home page', () => {
@@ -19,8 +20,8 @@ describe('Home page', () => {
 
   it('can enter text into the textbox and read it', async () => {
     const user = userEvent.setup();
-
     render(<Home />);
+
     const textbox = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: 'Read' });
 
@@ -32,25 +33,23 @@ describe('Home page', () => {
   });
 
   it('can speed read the text', async () => {
+    const user = userEvent.setup();
     render(<Home />);
+
     const textbox = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: 'Read' });
 
-    await userEvent.type(textbox, 'Hello World');
+    await user.type(textbox, 'Hello World');
     expect(textbox).toHaveValue('Hello World');
 
-    await userEvent.click(button);
+    await user.click(button);
     expect(textbox).not.toBeInTheDocument();
 
     const word = screen.getByText('Hello');
     expect(word).toBeInTheDocument();
 
-    screen.logTestingPlaygroundURL();
-
-    setTimeout(() => {
-      const word2 = screen.getByText('World');
-      expect(word2).toBeInTheDocument();
-    }, 1000);
-  }, 10000);
+    const word2 = await screen.findByText('World');
+    expect(word2).toBeInTheDocument();
+  });
 });
 
