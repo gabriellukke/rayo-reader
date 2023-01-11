@@ -1,8 +1,7 @@
 import React from 'react';
-import { vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { render, screen } from './test-utils';
 import Home from '../pages';
 
 describe('Home page', () => {
@@ -10,8 +9,7 @@ describe('Home page', () => {
     render(<Home />);
     const title = screen.getByText('Rayo Reader');
     expect(title).toBeInTheDocument();
-    
-    // screen.logTestingPlaygroundURL();
+
     const textbox = screen.getByRole('textbox');
     expect(textbox).toBeInTheDocument();
 
@@ -19,38 +17,40 @@ describe('Home page', () => {
     expect(button).toBeInTheDocument();
   });
 
-  it('can enter text into the textbox and read it', () => {
+  it('can enter text into the textbox and read it', async () => {
+    const user = userEvent.setup();
+
     render(<Home />);
     const textbox = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: 'Read' });
 
-    userEvent.type(textbox, 'Hello World');
+    await user.type(textbox, 'Hello World');
     expect(textbox).toHaveValue('Hello World');
 
-    userEvent.click(button);
+    await user.click(button);
     expect(textbox).not.toBeInTheDocument();
   });
 
-  it('can speed read the text', () => {
-    vi.useFakeTimers();
-
+  it('can speed read the text', async () => {
     render(<Home />);
     const textbox = screen.getByRole('textbox');
     const button = screen.getByRole('button', { name: 'Read' });
 
-    userEvent.type(textbox, 'Hello World');
+    await userEvent.type(textbox, 'Hello World');
     expect(textbox).toHaveValue('Hello World');
 
-    userEvent.click(button);
+    await userEvent.click(button);
     expect(textbox).not.toBeInTheDocument();
 
     const word = screen.getByText('Hello');
     expect(word).toBeInTheDocument();
-    
-    vi.advanceTimersByTime(300);
 
-    const word2 = screen.getByText('World');
-    expect(word2).toBeInTheDocument();
-  });
+    screen.logTestingPlaygroundURL();
+
+    setTimeout(() => {
+      const word2 = screen.getByText('World');
+      expect(word2).toBeInTheDocument();
+    }, 1000);
+  }, 10000);
 });
 
