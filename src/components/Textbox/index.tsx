@@ -4,13 +4,13 @@ import { ReaderContext } from '../../context/Reader';
 export default function Textbox() {
   const { text, setText } = useContext(ReaderContext);
   
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   };
 
   return (
     <form className="p-4 flex flex-col md:w-4/6 w-full justify-center items-center">
-      <textarea
+      <input
         className="rounded-sm
           focus:border-transparent 
           outline-none 
