@@ -1,8 +1,6 @@
-export default function getTotalMiliseconds(wordsPerMinute: number) {
-  
-  const ONE_MINUTE = 60;
-  const totalMiliseconds = Math.round((ONE_MINUTE * 100) / wordsPerMinute);
-
+export default function getTotalMiliseconds(wordsLength: number, wordsPerMinute: number) { 
+  const ONE_SECOND = 1000;
+  const totalMiliseconds = (wordsLength / wordsPerMinute) * ONE_SECOND;
   return totalMiliseconds;
 }
 
