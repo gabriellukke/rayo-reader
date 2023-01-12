@@ -17,7 +17,7 @@ interface Context {
   isPlaying: boolean;
   handleStart: () => void;
   words: string[];
-  currentWord: number;
+  currentPosition: number;
 }
 
 export const ReaderContext = createContext<Context>({
@@ -26,7 +26,7 @@ export const ReaderContext = createContext<Context>({
   isPlaying: false,
   handleStart: () => { },
   words: [],
-  currentWord: 0,
+  currentPosition: 0,
 });
 
 export default function ReaderProvider({ children }: Props) {
@@ -34,30 +34,38 @@ export default function ReaderProvider({ children }: Props) {
   const [words, setWords] = useState<string[]>([]);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentWord, setCurrentWord] = useState(0);
-  const [defaultTime, setDefaultTime] = useState(500);
+  const [currentPosition, setCurrentPosition] = useState(0);
+  // const [defaultTime, setDefaultTime] = useState(500);
+
+  // const currentWordExist = useMemo<boolean>(() => currentWord <= (words.length), [words, currentWord]);
+  // console.log(currentWordExist);
 
   const handleStart = useCallback(() => {
-    setIsPlaying(true);
-    const splitedWords = text.split(' ');
-    setWords(splitedWords);
+    if (text) {
+      setIsPlaying(true);
+      const splitedWords = text.split(' ');
+      setWords(splitedWords);
+    }
   }, [text]);
 
   const handleNextWord = () => {
-    setCurrentWord((prevState) => prevState + 1);
+    setCurrentPosition((prevState) => prevState + 1);
   };
-
+  
   useEffect(() => {
     if (isPlaying) {
       const newInterval = setInterval(() => {
         handleNextWord();
-      }, defaultTime);
+      }, 200);
+      setTimer(newInterval);
+    } else {
+      clearInterval(timer as NodeJS.Timeout);
     }
-  }, [isPlaying, defaultTime]);
+  }, [isPlaying, timer]);
 
   const value = useMemo(
-    () => ({ text, setText, isPlaying, handleStart, words, currentWord }),
-    [text, isPlaying, handleStart, words, currentWord]
+    () => ({ text, setText, isPlaying, handleStart, words, currentPosition }),
+    [text, isPlaying, handleStart, words, currentPosition],
   );
 
   return (

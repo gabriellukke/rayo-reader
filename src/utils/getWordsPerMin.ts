@@ -1,10 +1,8 @@
-export default function getWordsPerMin(text: string, time: number) {
-  const words = text.split(' ').length;
+export default function getTotalMiliseconds(wordsPerMinute: number) {
   
   const ONE_MINUTE = 60;
-  const minutes = time / ONE_MINUTE;
-  const wordsPerMin = words / minutes;
+  const totalMiliseconds = Math.round((ONE_MINUTE * 100) / wordsPerMinute);
 
-  return wordsPerMin;
+  return totalMiliseconds;
 }
 
