@@ -9,6 +9,7 @@ import {
   Footer,
   PlayButton,
   DisplayWord,
+  StopButton,
 } from '../components';
 
 export default function Home() {
@@ -23,7 +24,11 @@ export default function Home() {
       <Header />
       <main className="w-full flex items-center justify-center flex-col">
         {isPlaying ? (
-          <DisplayWord />
+          <>
+            {' '}
+            <DisplayWord />
+            <StopButton />{' '}
+          </>
         ) : (
           <>
             {' '}

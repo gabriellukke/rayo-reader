@@ -18,6 +18,7 @@ interface Context {
   handleStart: () => void;
   words: string[];
   currentPosition: number;
+  handleReset: () => void;
 }
 
 export const ReaderContext = createContext<Context>({
@@ -27,6 +28,7 @@ export const ReaderContext = createContext<Context>({
   handleStart: () => {},
   words: [],
   currentPosition: 0,
+  handleReset: () => {},
 });
 
 export default function ReaderProvider({ children }: Props) {
@@ -52,11 +54,11 @@ export default function ReaderProvider({ children }: Props) {
     setCurrentPosition((prevState) => prevState + 1);
   };
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setCurrentPosition(0);
     setIsPlaying(false);
     setWords([]);
-  };
+  }, []);
 
   useEffect(() => {
     if (isPlaying) {
@@ -72,8 +74,8 @@ export default function ReaderProvider({ children }: Props) {
   }, [isPlaying]);
 
   const value = useMemo(
-    () => ({ text, setText, isPlaying, handleStart, words, currentPosition }),
-    [text, isPlaying, handleStart, words, currentPosition],
+    () => ({ text, setText, isPlaying, handleStart, words, currentPosition, handleReset }),
+    [text, isPlaying, handleStart, words, currentPosition, handleReset],
   );
 
   return (
