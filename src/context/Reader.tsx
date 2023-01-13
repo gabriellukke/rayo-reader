@@ -22,9 +22,9 @@ interface Context {
 
 export const ReaderContext = createContext<Context>({
   text: '',
-  setText: () => { },
+  setText: () => {},
   isPlaying: false,
-  handleStart: () => { },
+  handleStart: () => {},
   words: [],
   currentPosition: 0,
 });
@@ -52,29 +52,25 @@ export default function ReaderProvider({ children }: Props) {
     setCurrentPosition((prevState) => prevState + 1);
   };
 
-  const newInterval = useCallback(() => {
-    console.log('newInterval', words[currentPosition]);
-    const defaultTime = 500;
-
-    if (!words[currentPosition]) {
-      setIsPlaying(false);
-      setCurrentPosition(0);
-      clearInterval(timer as NodeJS.Timeout);
-    }
-
-    clearInterval(timer as NodeJS.Timeout);
-
-    const newTimer = setInterval(handleNextWord, defaultTime);
-    return newTimer;
-  }, [words, currentPosition]);
+  const handleReset = () => {
+    setCurrentPosition(0);
+    setIsPlaying(false);
+    setWords([]);
+  };
 
   useEffect(() => {
     if (isPlaying) {
-      const newTimer = newInterval();
+      const defaultInterval = () => {
+        const defaultTime = 500;
+
+        const newTimer = setInterval(handleNextWord, defaultTime);
+        return newTimer;
+      };
+      const newTimer = defaultInterval();
       setTimer(newTimer);
     }
-  }, [isPlaying, newInterval]);
-  
+  }, [isPlaying]);
+
   const value = useMemo(
     () => ({ text, setText, isPlaying, handleStart, words, currentPosition }),
     [text, isPlaying, handleStart, words, currentPosition],
@@ -84,4 +80,3 @@ export default function ReaderProvider({ children }: Props) {
     <ReaderContext.Provider value={value}>{children}</ReaderContext.Provider>
   );
 }
-
