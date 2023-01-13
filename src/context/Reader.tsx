@@ -51,18 +51,30 @@ export default function ReaderProvider({ children }: Props) {
   const handleNextWord = () => {
     setCurrentPosition((prevState) => prevState + 1);
   };
-  
-  useEffect(() => {
-    if (isPlaying) {
-      const newInterval = setInterval(() => {
-        handleNextWord();
-      }, 200);
-      setTimer(newInterval);
-    } else {
+
+  const newInterval = useCallback(() => {
+    console.log('newInterval', words[currentPosition]);
+    const defaultTime = 500;
+
+    if (!words[currentPosition]) {
+      setIsPlaying(false);
+      setCurrentPosition(0);
       clearInterval(timer as NodeJS.Timeout);
     }
-  }, [isPlaying, timer]);
 
+    clearInterval(timer as NodeJS.Timeout);
+
+    const newTimer = setInterval(handleNextWord, defaultTime);
+    return newTimer;
+  }, [words, currentPosition]);
+
+  useEffect(() => {
+    if (isPlaying) {
+      const newTimer = newInterval();
+      setTimer(newTimer);
+    }
+  }, [isPlaying, newInterval]);
+  
   const value = useMemo(
     () => ({ text, setText, isPlaying, handleStart, words, currentPosition }),
     [text, isPlaying, handleStart, words, currentPosition],
