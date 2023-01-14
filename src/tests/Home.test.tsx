@@ -62,5 +62,30 @@ describe('Home page', () => {
     const word2 = await screen.findByText('World');
     expect(word2).toBeInTheDocument();
   });
+
+  it('can stop reading', async () => {
+    const user = userEvent.setup();
+    render(<Home />);
+
+    const textbox = screen.getByRole('textbox');
+    const button = screen.getByRole('button', { name: 'Read' });
+
+    await user.type(textbox, 'Hello World');
+    expect(textbox).toHaveValue('Hello World');
+
+    await user.click(button);
+    expect(textbox).not.toBeInTheDocument();
+
+    const word = screen.getByText('Hello');
+    expect(word).toBeInTheDocument();
+
+    const stopButton = screen.getByRole('button', { name: 'Stop' });
+    await user.click(stopButton);
+
+    screen.logTestingPlaygroundURL();
+    
+    const textbox2 = screen.getByRole('textbox');
+    expect(textbox2).toBeInTheDocument();
+  });
 });
 
