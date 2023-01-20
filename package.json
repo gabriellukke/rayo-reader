@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest",
-    "coverage": "vitest --coverage"
+    "coverage": "vitest --coverage",
+    "export": "npm run build && next export"
   },
   "dependencies": {
     "@next/font": "13.1.0",
