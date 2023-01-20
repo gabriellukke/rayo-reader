@@ -73,13 +73,11 @@ export default function ReaderProvider({ children }: Props) {
   }, [isPlaying]);
   
   useEffect(() => {
-    if (timer) {
-      if (currentPosition >= words.length) {
+      if (timer && currentPosition >= words.length) {
         clearInterval(timer);
         setCurrentPosition(words.length - 1);
         // setIsPlaying(false);
       }
-    }
   }, [currentPosition, timer, words]);
 
   const value = useMemo(
