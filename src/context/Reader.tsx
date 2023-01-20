@@ -57,13 +57,12 @@ export default function ReaderProvider({ children }: Props) {
   const handleReset = useCallback(() => {
     setCurrentPosition(0);
     setIsPlaying(false);
-    setWords([]);
   }, []);
 
   useEffect(() => {
     if (isPlaying) {
       const defaultInterval = () => {
-        const defaultTime = 500;
+        const defaultTime = 200;
 
         const newTimer = setInterval(handleNextWord, defaultTime);
         return newTimer;
@@ -72,6 +71,16 @@ export default function ReaderProvider({ children }: Props) {
       setTimer(newTimer);
     }
   }, [isPlaying]);
+  
+  useEffect(() => {
+    if (timer) {
+      if (currentPosition >= words.length) {
+        clearInterval(timer);
+        setCurrentPosition(words.length - 1);
+        // setIsPlaying(false);
+      }
+    }
+  }, [currentPosition, timer, words]);
 
   const value = useMemo(
     () => ({ text, setText, isPlaying, handleStart, words, currentPosition, handleReset }),
