@@ -51,6 +51,7 @@ export default function ReaderProvider({ children }: Props) {
   }, [text]);
 
   const handleNextWord = () => {
+    console.log('WTF TIMER');
     setCurrentPosition((prevState) => prevState + 1);
   };
 
@@ -76,7 +77,6 @@ export default function ReaderProvider({ children }: Props) {
       if (timer && currentPosition >= words.length) {
         clearInterval(timer);
         setCurrentPosition(words.length - 1);
-        // setIsPlaying(false);
       }
   }, [currentPosition, timer, words]);
 

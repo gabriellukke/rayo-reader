@@ -6,7 +6,6 @@ export default function PlayButton() {
   const { handleStart, text } = useContext(ReaderContext);
 
   const disabled = !text;
-  console.log(disabled);
 
   return (
     <button
