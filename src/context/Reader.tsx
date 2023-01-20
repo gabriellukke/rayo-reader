@@ -58,7 +58,8 @@ export default function ReaderProvider({ children }: Props) {
   const handleReset = useCallback(() => {
     setCurrentPosition(0);
     setIsPlaying(false);
-  }, []);
+    clearInterval(timer as NodeJS.Timeout);
+  }, [timer]);
 
   useEffect(() => {
     if (isPlaying) {
